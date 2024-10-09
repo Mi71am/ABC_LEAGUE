@@ -74,4 +74,53 @@ vector<vector<string>> generateFixtures(const vector<vector<string>>& teams) {
                         to_string(weekend), // Convert weekend number to string
                         days[weekend % 2], // Alternate between Saturday (index 0) and Sunday (index 1)
                         timeOfDay[(h + a) % 2] // Alternate between 10 AM and 3 PM
-                    });
+
+                    }
+                            }
+            }
+
+            for (size_t h = 0; h < teams.size(); ++h) {
+                // Loop through each team in the entire list of teams
+                for (size_t a = h + 1; a < teams.size(); ++a) {
+                    // Compare each team with the teams that come after it in the list
+                    if (teams[h][1] != teams[a][1]) { // Check if the teams are from different towns
+                        generatedMatches.push_back({
+                            teams[h][0], // Home team name
+                            teams[a][0], // Away team name
+                            to_string(leg), // Convert leg number to string
+                            to_string(weekend), // Convert weekend number to string
+                            days[(weekend - 1) % 2], // Alternate between Saturday and Sunday
+                            timeOfDay[(h + a) % 2] // Alternate between 10 AM and 3 PM
+                        });
+                    }
+                }
+            }
+            ++weekend; // Move to the next weekend for the next set of matches
+        }
+        return generatedMatches; // Return the list of generated matches
+    }
+
+    // Function to write generated match data to a CSV file
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
