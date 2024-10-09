@@ -48,3 +48,30 @@ map<string, vector<string>> groupTeamsByTown(const vector<vector<string>>& teams
 }
 return towns;
 }
+}
+
+// Function to generate match fixtures based on teams
+vector<vector<string>> generateFixtures(const vector<vector<string>>& teams) {
+    vector<vector<string>> generatedMatches; // This vector will hold all the generated matches
+    map<string, vector<string>> towns = groupTeamsByTown(teams);/*This is a data structure that organizes teams based on their local towns
+     The function calls the previous function to get the map of teams grouped by town*/
+    int weekend = 1;
+    string days[2] = { "Saturday", "Sunday" };
+    string timeOfDay[2] = { "10:00 AM", "3:00 PM" };
+    for (int leg = 1; leg <= 2; ++leg) {
+        // This loop runs twice, once for each leg of the tournament; leg 1 is the home game, leg 2 is the away game
+        for (const auto& town : towns) {
+            // Iterate over each town in the towns map
+            const auto& townTeams = town.second; // Get the list of teams from the current town
+            for (size_t h = 0; h < townTeams.size(); ++h) {
+                // Loop through each team in the current town
+                for (size_t a = h + 1; a < townTeams.size(); ++a) {
+                    // Compare each team with the teams that come after it in the list
+                    generatedMatches.push_back({
+                        townTeams[h], // Home team
+                        townTeams[a], // Away team
+                        to_string(leg), // Convert leg number to string
+                        to_string(weekend), // Convert weekend number to string
+                        days[weekend % 2], // Alternate between Saturday (index 0) and Sunday (index 1)
+                        timeOfDay[(h + a) % 2] // Alternate between 10 AM and 3 PM
+                    });
